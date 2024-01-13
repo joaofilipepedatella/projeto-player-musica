@@ -50,18 +50,22 @@ button {
     color: #88999C;
 }
 
+#progress-container {
+    padding: 1em 0;
+}
+
 #progress-bar {
     background-color: #88999C;
     height: 3px;
     width: 100%;
     border-radius: 1.5px;
-    margin-bottom: 20px;
 }
 
 #current-progress {
+    --progress: 0%;
     background-color: white;
     height: 3px;
-    width: 50%;
+    width: var(--progress);
     border-radius: 1.5px;
 }
 

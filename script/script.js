@@ -5,6 +5,11 @@ const cover = document.querySelector("#cover")
 const play = document.querySelector("#play")
 const next = document.querySelector("#next")
 const previous = document.querySelector("#previous")
+const currentProgress = document.querySelector("#current-progress")
+const progressContainer = document.querySelector("#progress-container")
+
+
+
 
 const asYouWere = {
     songName: "As You Were",
@@ -80,8 +85,31 @@ function nextSong() {
     initializeSong()
     playSong()
 }
+
+function updateProgressBar(){
+    const barWidth = (song.currentTime/song.duration)*100;
+    currentProgress.style.setProperty('--progress', `${barWidth}%`)
+}
+
+function jumpTo(event){
+    const clickPosition = event.offsetX
+    const width = progressContainer.clientWidth
+    const jumpToTime = (clickPosition/width)* song.duration
+    song.currentTime = jumpToTime
+}
+
+
+
+
+
+
+
 initializeSong()
+
+
 
 play.addEventListener('click', playPauseDecider)
 previous.addEventListener('click', previousSong)
 next.addEventListener('click', nextSong)
+song.addEventListener('timeupdate', updateProgressBar)
+progressContainer.addEventListener('click', jumpTo)
