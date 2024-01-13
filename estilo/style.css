@@ -1,0 +1,78 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: linear-gradient(rgb(59,88,93), rgb(29,40,42));
+    height: 100vh;
+    color: white;
+    font-family: sans-serif;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#playlist-title {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-bottom: 70px;
+}
+
+#cover {
+    width: 350px;
+}
+
+#bellow-cover {
+    margin: 40px 0 10px 0;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#song-name {
+    font-size: 1.5em;
+    font-weight: bolder;
+}
+
+.light-color {
+    color: #88999C;
+}
+
+#progress-bar {
+    background-color: #88999C;
+    height: 3px;
+    width: 100%;
+    border-radius: 1.5px;
+    margin-bottom: 20px;
+}
+
+#current-progress {
+    background-color: white;
+    height: 3px;
+    width: 50%;
+    border-radius: 1.5px;
+}
+
+#control-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.button {
+    font-size: 1.5em;
+}
+
+.button-navigate {
+    font-size: 3em;
+}
+
+.button-biggest {
+    font-size: 4em;
+}
