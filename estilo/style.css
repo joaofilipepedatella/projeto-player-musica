@@ -18,6 +18,7 @@ body {
     display: flex;
     flex-direction: row;
     justify-content: center;
+    margin-top: 30px;
     margin-bottom: 70px;
 }
 
@@ -37,6 +38,12 @@ body {
 #song-name {
     font-size: 1.5em;
     font-weight: bolder;
+}
+
+button {
+    background-color: inherit;
+    color: inherit;
+    border: none;
 }
 
 .light-color {
