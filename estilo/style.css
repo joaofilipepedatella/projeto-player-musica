@@ -56,7 +56,6 @@ button {
 }
 
 #progress-container {
-    padding: 1em 0;
     cursor: pointer;
 }
 
@@ -73,6 +72,14 @@ button {
     height: 3px;
     width: var(--progress);
     border-radius: 1.5px;
+}
+
+#time-box {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-size: smaller;
+    margin-top: 5px;
 }
 
 #control-container {
