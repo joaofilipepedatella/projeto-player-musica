@@ -33,12 +33,25 @@ const cantHide = {
     file: "cant_hide",
     liked: false
 }
+const lazyWalk = {
+    songName: "Lazy Walk",
+    artist: "Cheel",
+    file: "Cheel_Lazy_Walk",
+    liked: false
+}
+const caballero = {
+    songName: "Caballero",
+    artist: "Ofshane",
+    file: "Ofshane_Caballero",
+    liked: false
+}
+
 
 let isPlaying = false
 let isShuffle = false
 let repeatOn = false
 
-const originalPlaylist = JSON.parse(localStorage.getItem("playlist")) ?? [asYouWere, boomBapFlick, cantHide]
+const originalPlaylist = JSON.parse(localStorage.getItem("playlist")) ?? [asYouWere, boomBapFlick, cantHide, lazyWalk, caballero]
 let sortedPlaylist = [...originalPlaylist]
 
 let index = 0
