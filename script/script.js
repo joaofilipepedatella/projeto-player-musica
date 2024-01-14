@@ -2,6 +2,7 @@ const songName = document.querySelector("#song-name")
 const bandName = document.querySelector("#band-name")
 const song = document.querySelector("#audio")
 const cover = document.querySelector("#cover")
+const likeButton = document.querySelector("#like")
 const play = document.querySelector("#play")
 const next = document.querySelector("#next")
 const previous = document.querySelector("#previous")
@@ -14,34 +15,60 @@ const totalTime = document.querySelector("#total-time")
 
 
 
-
-
 const asYouWere = {
     songName: "As You Were",
     artist: "TrackTribe",
-    file: "as_you_were"
+    file: "as_you_were",
+    liked: false
 }
 const boomBapFlick = {
     songName: "Boom Bap Flick",
     artist: "Quincas Moreira",
-    file: "boom_bap_flick"
+    file: "boom_bap_flick",
+    liked: false
 }
 const cantHide = {
     songName: "Can't Hide", /* 'can\'t hide'  => caso de aspas simples*/
     artist: "Otis McDonald",
-    file: "cant_hide"
+    file: "cant_hide",
+    liked: false
 }
 
 let isPlaying = false
 let isShuffle = false
 let repeatOn = false
 
-const originalPlaylist = [asYouWere, boomBapFlick, cantHide]
+const originalPlaylist = JSON.parse(localStorage.getItem("playlist")) ?? [asYouWere, boomBapFlick, cantHide]
 let sortedPlaylist = [...originalPlaylist]
 
 let index = 0
 
 
+
+
+function likeButtonRender() {
+    if (sortedPlaylist[index].liked === true) {
+        likeButton.querySelector(".bi").classList.remove("bi-heart")
+        likeButton.classList.remove("light-color")
+        likeButton.querySelector(".bi").classList.add("bi-heart-fill")
+        likeButton.classList.add("button-active")
+    } else {
+        likeButton.querySelector(".bi").classList.remove("bi-heart-fill")
+        likeButton.querySelector(".bi").classList.add("bi-heart")
+        likeButton.classList.add("light-color")
+        likeButton.classList.remove("button-active")
+    }
+}
+
+function likeButtonClicked() {
+    if (sortedPlaylist[index].liked === false) {
+        sortedPlaylist[index].liked = true
+    } else {
+        sortedPlaylist[index].liked = false
+    }
+    likeButtonRender()
+    localStorage.setItem('playlist', JSON.stringify(originalPlaylist))
+}
 
 function playSong() {
     play.querySelector(".bi").classList.remove("bi-play-circle-fill")
@@ -70,6 +97,7 @@ function initializeSong() {
     song.src = `songs/${sortedPlaylist[index].file}.mp3`
     songName.innerText = sortedPlaylist[index].songName
     bandName.innerText = sortedPlaylist[index].artist
+    likeButtonRender()
 }
 
 function previousSong() {
@@ -158,7 +186,7 @@ function toHHMMSS(originalNumber) {
     return `${hours !== 0 ? hours.toString().padStart(2, '0') + ":" : ""}${min
         .toString()
         .padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-    
+
 }
 
 function upgradeTotalTime() {
@@ -171,6 +199,7 @@ initializeSong()
 
 
 
+likeButton.addEventListener('click', likeButtonClicked)
 play.addEventListener('click', playPauseDecider)
 previous.addEventListener('click', previousSong)
 next.addEventListener('click', nextSong)
