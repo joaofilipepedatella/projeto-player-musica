@@ -7,6 +7,7 @@ const next = document.querySelector("#next")
 const previous = document.querySelector("#previous")
 const currentProgress = document.querySelector("#current-progress")
 const progressContainer = document.querySelector("#progress-container")
+const shuffleButton = document.querySelector("#shuffle")
 
 
 
@@ -28,8 +29,10 @@ const cantHide = {
 }
 
 let isPlaying = false
+let isShuffle = false
 
-const playlist = [asYouWere, boomBapFlick, cantHide]
+const originalPlaylist = [asYouWere, boomBapFlick, cantHide]
+let sortedPlaylist = [...originalPlaylist]
 
 let index = 0
 
@@ -58,15 +61,15 @@ function playPauseDecider() {
 }
 
 function initializeSong(){
-    cover.src = `imagens/${playlist[index].file}.webp`
-    song.src = `songs/${playlist[index].file}.mp3`
-    songName.innerText = playlist[index].songName
-    bandName.innerText = playlist[index].artist
+    cover.src = `imagens/${sortedPlaylist[index].file}.webp`
+    song.src = `songs/${sortedPlaylist[index].file}.mp3`
+    songName.innerText = sortedPlaylist[index].songName
+    bandName.innerText = sortedPlaylist[index].artist
 }
 
 function previousSong() {
     if( index === 0){
-        index = playlist.length - 1
+        index = sortedPlaylist.length - 1
     } else {
         index -= 1
     }
@@ -76,7 +79,7 @@ function previousSong() {
 }
 
 function nextSong() {
-    if( index === playlist.length - 1){
+    if( index === sortedPlaylist.length - 1){
         index = 0
     } else {
         index += 1
@@ -98,6 +101,30 @@ function jumpTo(event){
     song.currentTime = jumpToTime
 }
 
+function shufflePlaylist(preShufflePlaylist){
+    const size = preShufflePlaylist.length
+    let currentIndex = size - 1
+    while(currentIndex > 0) {
+        let randomIndex = Math.floor(Math.random() * size)
+        let aux = preShufflePlaylist[currentIndex]
+        preShufflePlaylist[currentIndex] = preShufflePlaylist[randomIndex]
+        preShufflePlaylist[randomIndex] = aux
+        currentIndex -= 1
+    }
+}
+
+function shuffleButtonClicked(){
+    if( isShuffle === false ){
+        isShuffle = true
+        shufflePlaylist(sortedPlaylist)
+        shuffleButton.classList.add("button-active")
+    } else {
+        isShuffle = false
+        sortedPlaylist = [...originalPlaylist]
+        shuffleButton.classList.remove("button-active")
+    }
+}
+
 
 
 
@@ -113,3 +140,4 @@ previous.addEventListener('click', previousSong)
 next.addEventListener('click', nextSong)
 song.addEventListener('timeupdate', updateProgressBar)
 progressContainer.addEventListener('click', jumpTo)
+shuffleButton.addEventListener('click', shuffleButtonClicked)
