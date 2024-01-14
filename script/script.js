@@ -8,6 +8,8 @@ const previous = document.querySelector("#previous")
 const currentProgress = document.querySelector("#current-progress")
 const progressContainer = document.querySelector("#progress-container")
 const shuffleButton = document.querySelector("#shuffle")
+const repeatButton = document.querySelector("#repeatBtn")
+
 
 
 
@@ -30,6 +32,7 @@ const cantHide = {
 
 let isPlaying = false
 let isShuffle = false
+let repeatOn = false
 
 const originalPlaylist = [asYouWere, boomBapFlick, cantHide]
 let sortedPlaylist = [...originalPlaylist]
@@ -60,7 +63,7 @@ function playPauseDecider() {
     }
 }
 
-function initializeSong(){
+function initializeSong() {
     cover.src = `imagens/${sortedPlaylist[index].file}.webp`
     song.src = `songs/${sortedPlaylist[index].file}.mp3`
     songName.innerText = sortedPlaylist[index].songName
@@ -68,7 +71,7 @@ function initializeSong(){
 }
 
 function previousSong() {
-    if( index === 0){
+    if (index === 0) {
         index = sortedPlaylist.length - 1
     } else {
         index -= 1
@@ -79,7 +82,7 @@ function previousSong() {
 }
 
 function nextSong() {
-    if( index === sortedPlaylist.length - 1){
+    if (index === sortedPlaylist.length - 1) {
         index = 0
     } else {
         index += 1
@@ -89,22 +92,22 @@ function nextSong() {
     playSong()
 }
 
-function updateProgressBar(){
-    const barWidth = (song.currentTime/song.duration)*100;
+function updateProgressBar() {
+    const barWidth = (song.currentTime / song.duration) * 100;
     currentProgress.style.setProperty('--progress', `${barWidth}%`)
 }
 
-function jumpTo(event){
+function jumpTo(event) {
     const clickPosition = event.offsetX
     const width = progressContainer.clientWidth
-    const jumpToTime = (clickPosition/width)* song.duration
+    const jumpToTime = (clickPosition / width) * song.duration
     song.currentTime = jumpToTime
 }
 
-function shufflePlaylist(preShufflePlaylist){
+function shufflePlaylist(preShufflePlaylist) {
     const size = preShufflePlaylist.length
     let currentIndex = size - 1
-    while(currentIndex > 0) {
+    while (currentIndex > 0) {
         let randomIndex = Math.floor(Math.random() * size)
         let aux = preShufflePlaylist[currentIndex]
         preShufflePlaylist[currentIndex] = preShufflePlaylist[randomIndex]
@@ -113,8 +116,8 @@ function shufflePlaylist(preShufflePlaylist){
     }
 }
 
-function shuffleButtonClicked(){
-    if( isShuffle === false ){
+function shuffleButtonClicked() {
+    if (isShuffle === false) {
         isShuffle = true
         shufflePlaylist(sortedPlaylist)
         shuffleButton.classList.add("button-active")
@@ -125,9 +128,23 @@ function shuffleButtonClicked(){
     }
 }
 
+function repeatButtonClicked() {
+    if (repeatOn === false) {
+        repeatOn = true
+        repeatButton.classList.add("button-active")
+    } else {
+        repeatOn = false
+        repeatButton.classList.remove("button-active")
+    }
+}
 
-
-
+function nextOrRepeat(){
+    if(repeatOn === false){
+        nextSong()
+    } else {
+        playSong()
+    }
+}
 
 
 
@@ -139,5 +156,7 @@ play.addEventListener('click', playPauseDecider)
 previous.addEventListener('click', previousSong)
 next.addEventListener('click', nextSong)
 song.addEventListener('timeupdate', updateProgressBar)
+song.addEventListener('ended', nextOrRepeat)
 progressContainer.addEventListener('click', jumpTo)
 shuffleButton.addEventListener('click', shuffleButtonClicked)
+repeatButton.addEventListener('click', repeatButtonClicked)
